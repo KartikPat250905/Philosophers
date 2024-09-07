@@ -12,20 +12,21 @@
 
 #include "philo.h"
 
-//fix atoi minor issues and complete the arguments handling.
-
 int	main(int argc, char *argv[])
 {
-	t_overseer		overseer;
-	t_philo			philo[PHILO_MAX];
-	pthread_mutex_t	forks[PHILO_MAX];
+	t_info	info;
 
-	if (!(argc == 5 && checkargs(argv) || (argc == 6 && checkargs(argv))))
+	if (!((argc == 5 && checkargs(argv)) || (argc == 6 && checkargs(argv))))
 	{
-		perror("Incorrect usuage check the instructons to run correctly.");
-		return (1);
+		printf("Incorrect usuage check the instructons to run correctly.\n");
+		return (EXIT_FAILURE);
 	}
-	overseer_init(&overseer, &philo);
-	forks_init(forks, ft_atoi(argv[1]));
-	philo_init(overseer, philo , forks, argv);
+	parse_argv(&info, argv);
+	if (data_init(&info) != 0)
+	{
+		printf("Error with mallocing stuff or mutexs or threads.");
+		return (EXIT_FAILURE);
+	}
+	//dinner_starts();
+	//clean();
 }

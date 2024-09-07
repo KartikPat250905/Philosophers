@@ -13,25 +13,21 @@
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SOURCES = main.c init.c
+SOURCES = main.c init.c inputhelper.c inputhelper2.c
 OBJECTS = $(SOURCES:.c=.o)
-LIBDIR = ./libft
 
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	$(MAKE) -C $(LIBDIR)
-	$(CC) -o $@ $(CFLAGS) $^ ./libft/libft.a
+	$(CC) -o $@ $(CFLAGS) $^
 
-$(SOURCE_DIR)/%.o: %.c
-	$(CC) -I -c $(CFLAGS) $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(MAKE) -C $(LIBDIR) $@
 	rm -f $(OBJECTS)
 
 fclean: clean
-	$(MAKE) -C $(LIBDIR) $@
 	rm -f $(NAME)
 
 re: fclean all
