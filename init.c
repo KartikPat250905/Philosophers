@@ -18,7 +18,7 @@ int	checkargs(char *argv[])
 
 	if (ft_atoi(argv[1]) > 200 || ft_atoi(argv[2]) == 0 || ft_atoi(argv[4]) == 0)
 		return (0);
-	i = 2;
+	i = 1;
 	while (argv[i])
 	{
 		if (ft_isnumstr(argv[i]))

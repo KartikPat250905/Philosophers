@@ -12,11 +12,13 @@
 
 #include "philo.h"
 
+//200 800 200 200
+//5 600 150 150
 int	main(int argc, char *argv[])
 {
 	t_info	info;
 
-	if (!((argc == 5 && checkargs(argv)) || (argc == 6 && checkargs(argv))))
+	if ((argc != 5 && argc != 6) || !checkargs(argv))
 	{
 		printf("Incorrect usuage check the instructons to run correctly.\n");
 		return (EXIT_FAILURE);
@@ -24,9 +26,9 @@ int	main(int argc, char *argv[])
 	parse_argv(&info, argv);
 	if (data_init(&info) != 0)
 	{
-		printf("Error with mallocing stuff or mutexs or threads.");
+		printf("Error with mallocing stuff for mutexs or threads in info struct.");
 		return (EXIT_FAILURE);
 	}
-	//dinner_starts();
-	//clean();
+	dinner_starts(&info);
+	//cleaner(info.phi);
 }

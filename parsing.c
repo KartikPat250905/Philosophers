@@ -6,13 +6,14 @@ void	parse_argv(t_info *info, char *argv[])
 	info -> time_to_die = ft_atoi(argv[2]);
 	info -> time_to_eat = ft_atoi(argv[3]);
 	info -> time_to_sleep = ft_atoi(argv[4]);
-	if (argv[5])
+	if (argv[5] != NULL)
 		info -> no_of_meals = ft_atoi(argv[5]);
 	else
 		info -> no_of_meals = -1;
 }
 
-int	philo(t_info *info)
+//even philo take left fork first and the odd philo takes the right one 
+void	philo(t_info *info)
 {
 	int		i;
 	t_philo	*philo;
@@ -25,10 +26,19 @@ int	philo(t_info *info)
 		philo -> no_of_meals_taken = 0;
 		philo -> full = false;
 		philo -> info = info;
-		philo -> r_fork = &info -> forks[i];
-		philo -> l_fork = &info -> forks[i%info->no_of_philos];
+		all_mutex_handler(&philo -> philo_mutex, INIT);
+		if (philo -> id % 2 == 0)
+		{
+			philo -> first_fork = &info -> forks[(i + 1) % info -> no_of_philos];
+			philo -> second_fork = &info -> forks[i];
+		}
+		else
+		{
+			philo -> first_fork = &info -> forks[i];
+			philo -> second_fork = &info -> forks[(i + 1) % info -> no_of_philos];
+		}
+		i++;
 	}
-	return (0);
 }
 
 int	data_init(t_info *info)
@@ -37,6 +47,10 @@ int	data_init(t_info *info)
 	int	exit;
 
 	info -> stop_program = false;
+	info -> all_threads_ready = false;
+	info -> running_no_of_threads = 0;
+	all_mutex_handler(&info->info_mutex, INIT);
+	all_mutex_handler(&info -> write_lock, INIT);
 	info->philos = malloc(sizeof(t_philo) * info->no_of_philos);
 	if (info -> philos == NULL)
 		return (1);
@@ -50,7 +64,6 @@ int	data_init(t_info *info)
 			return (1);
 		i++;
 	}
-	if (philo_init(info) != 0)
-		return (1);
+	philo(info);
 	return (0);
 }

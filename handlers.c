@@ -23,8 +23,8 @@ int	all_thread_handler(pthread_t *thread, void *(*foo)(void *)
 	if (index == CREATE)
 		status = pthread_create(thread, NULL, foo, data);
 	else if (index == JOIN)
-		status = pthread_join(thread, NULL);
+		status = pthread_join(*thread, NULL);
 	else if (index == DETACH)
-		status = pthread_detach(thread);
+		status = pthread_detach(*thread);
 	return (status);
 }
