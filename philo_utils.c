@@ -1,21 +1,5 @@
 #include "philo.h"
 
-void	*single_philo(void *data)
-{
-	t_philo	*philo;
-	t_info	*info;
-
-	philo = data;
-	info = philo -> info;
-	wait_all_threads(philo -> info);
-	mutex_set_long(&philo -> philo_mutex, &info -> start_time, gettime(MILLISECONDS));
-	mutex_long_increment(&philo -> info -> info_mutex, &philo -> info -> running_no_of_threads, 1);
-	write_status(TAKE_FIRST_FORK, info, philo);
-	while (!finished_eating(philo -> info))
-		usleep(200);
-	return (NULL);
-}
-
 long	gettime(t_time time)
 {
 	struct timeval tv;
@@ -65,8 +49,6 @@ void	write_status(t_philo_status status, t_info *info, t_philo *philo)
 		printf("%ld %d died\n",elapsed, philo -> id);
 	else if (status == EATING && (!(finished_eating(info))))
 		printf("%ld %d is eating\n",elapsed, philo -> id);
-	else
-		printf("Please enter a valid philo status for the write status function.\n");
 	all_mutex_handler(&info->write_lock, UNLOCK);
 }
 

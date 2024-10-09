@@ -14,7 +14,7 @@ NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SOURCES = main.c init.c inputhelper.c inputhelper2.c parsing.c dinner_utils.c \
-			dinner.c handlers.c mutex_utils.c philo_utils.c dinner_monitor.c
+			dinner.c handlers.c mutex_utils.c philo_utils.c dinner_monitor.c free.c
 OBJECTS = $(SOURCES:.c=.o)
 
 all: $(NAME)

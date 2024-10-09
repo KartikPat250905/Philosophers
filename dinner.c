@@ -9,10 +9,9 @@ void	think(t_philo *philo, bool start)
 	if (philo -> info -> no_of_philos % 2 == 0)
 		return ;
 	t_think = (philo -> info -> time_to_eat * 2) - philo -> info -> time_to_sleep;
-	write_status(THINKING, philo -> info, philo);
 	if (t_think < 0)
 		t_think = 0;
-	usleep(t_think * 0.42);
+	ft_usleep(t_think * 0.42, philo);
 }
 
 void	eat(t_philo *philo)
@@ -23,7 +22,7 @@ void	eat(t_philo *philo)
 	write_status(TAKE_SECOND_FORK, philo -> info, philo);
 	mutex_set_long(&philo -> philo_mutex, &philo->last_meal_time, gettime(MILLISECONDS));
 	write_status(EATING, philo -> info, philo);
-	usleep(philo -> info -> time_to_eat * 1000);
+	ft_usleep(philo -> info -> time_to_eat , philo);
 	if ((philo->info->no_of_meals > 0) && (philo->no_of_meals_taken == philo->info->no_of_meals))
 		mutex_set_bool(&philo -> philo_mutex, &philo -> full, true);
 	all_mutex_handler(&philo-> first_fork -> fork, UNLOCK);
@@ -34,12 +33,12 @@ void	contention_preventer(t_philo *philo)
 {
 	if (philo -> info -> no_of_philos % 2 == 0)
 	{
-		if (philo -> id % 2 == 0)
-			usleep(30000);
+		if ((philo -> id + 1) % 2 == 0)
+			ft_usleep(30, philo);
 	}
 	else
 	{
-		if (philo -> id % 2 == 0)
+		if (philo -> id % 2 != 0)
 			think(philo, true);
 	}
 }
@@ -59,7 +58,7 @@ void	*dinner_simulation(void *data)
 			break ;
 		eat(philo);
 		write_status(SLEEPING, philo -> info, philo);
-		usleep(1000 * philo -> info -> time_to_sleep);
+		ft_usleep(philo -> info -> time_to_sleep, philo);
 		mutex_long_increment(&philo -> philo_mutex, &philo -> no_of_meals_taken, 1);
 		think(philo, false);
 	}
@@ -73,6 +72,11 @@ void	dinner_starts(t_info *info)
 	i = 0;
 	if (info->no_of_meals == 0)
 		return ;
+	else if (info -> no_of_philos == 1)
+	{
+		all_thread_handler(&info->philos[i].thread_id,
+						single_philo, &info->philos[i],CREATE);
+	}
 	else
 	{
 		all_thread_handler(&info -> monitor, monitor_dinner, info, CREATE);
@@ -82,13 +86,13 @@ void	dinner_starts(t_info *info)
 						dinner_simulation, &info->philos[i], CREATE);
 			i++;
 		}
-		mutex_set_long(&info -> info_mutex, &info -> start_time, gettime(MILLISECONDS));
-		mutex_set_bool(&info->info_mutex, &info->all_threads_ready, true);
-		i = 0;
-		while (i < info -> no_of_philos)
-		{
-			all_thread_handler(&info->philos[i].thread_id, NULL, NULL, JOIN);
-			i++;
-		}
+	}
+	mutex_set_long(&info -> info_mutex, &info -> start_time, gettime(MILLISECONDS));
+	mutex_set_bool(&info->info_mutex, &info->all_threads_ready, true);
+	i = 0;
+	while (i < info -> no_of_philos)
+	{
+		all_thread_handler(&info->philos[i].thread_id, NULL, NULL, JOIN);
+		i++;
 	}
 }

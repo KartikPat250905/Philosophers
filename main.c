@@ -30,5 +30,5 @@ int	main(int argc, char *argv[])
 		return (EXIT_FAILURE);
 	}
 	dinner_starts(&info);
-	//cleaner(info.phi);
+	cleaner(&info);
 }

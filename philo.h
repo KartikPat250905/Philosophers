@@ -109,12 +109,13 @@ long	mutex_get_long(pthread_mutex_t *mtx, long *value);
 void	mutex_long_increment(pthread_mutex_t *mutex, void *data, int inc);
 
 long	gettime(t_time time);
+void	ft_usleep(size_t millisecs, t_philo *philo);
 bool	finished_eating(t_info *info);
-
+void	*single_philo(void *data);
 void	dinner_starts(t_info *info);
 void	write_status(t_philo_status status, t_info *info, t_philo *philo);
 void	wait_all_threads(t_info *info);
 void	*monitor_dinner(void *data);
 bool	philo_died(t_philo *philo);
-
+void	cleaner(t_info *info);
 # endif
