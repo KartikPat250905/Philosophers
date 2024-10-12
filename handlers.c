@@ -1,9 +1,22 @@
-# include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handlers.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: karpatel <karpatel@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/12 15:27:01 by karpatel          #+#    #+#             */
+/*   Updated: 2024/10/12 15:27:02 by karpatel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 int	all_mutex_handler(pthread_mutex_t *mutex, t_index index)
 {
 	int	status;
 
+	status = 0;
 	if (index == LOCK)
 		status = pthread_mutex_lock(mutex);
 	else if (index == UNLOCK)
@@ -20,6 +33,7 @@ int	all_thread_handler(pthread_t *thread, void *(*foo)(void *)
 {
 	int	status;
 
+	status = 0;
 	if (index == CREATE)
 		status = pthread_create(thread, NULL, foo, data);
 	else if (index == JOIN)

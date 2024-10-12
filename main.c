@@ -12,8 +12,6 @@
 
 #include "philo.h"
 
-//200 800 200 200
-//5 600 150 150
 int	main(int argc, char *argv[])
 {
 	t_info	info;
@@ -26,7 +24,7 @@ int	main(int argc, char *argv[])
 	parse_argv(&info, argv);
 	if (data_init(&info) != 0)
 	{
-		printf("Error with mallocing stuff for mutexs or threads in info struct.");
+		printf("Error with mallocing stuff.");
 		return (EXIT_FAILURE);
 	}
 	dinner_starts(&info);

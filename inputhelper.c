@@ -1,4 +1,16 @@
-# include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   inputhelper.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: karpatel <karpatel@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/12 15:28:22 by karpatel          #+#    #+#             */
+/*   Updated: 2024/10/12 15:28:24 by karpatel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 int	overflow(char *str)
 {
@@ -42,7 +54,6 @@ int	resultcounter(long *result, int sign, char const *str, int i)
 	}
 	return (1);
 }
-
 
 long	ft_atoi(const char *str)
 {

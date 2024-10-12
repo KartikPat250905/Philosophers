@@ -1,4 +1,16 @@
-# include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: karpatel <karpatel@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/12 15:30:25 by karpatel          #+#    #+#             */
+/*   Updated: 2024/10/12 15:30:26 by karpatel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 void	parse_argv(t_info *info, char *argv[])
 {
@@ -12,7 +24,23 @@ void	parse_argv(t_info *info, char *argv[])
 		info -> no_of_meals = -1;
 }
 
-//even philo take left fork first and the odd philo takes the right one 
+void	philo_fork_assign(t_philo *philo, t_info *info, int i)
+{
+	if (philo -> id % 2 == 0)
+	{
+		philo -> first_fork = &info
+			-> forks[(i + 1) % info -> no_of_philos];
+		philo -> second_fork = &info -> forks[i];
+	}
+	else
+	{
+		philo -> first_fork = &info -> forks[i];
+		philo -> second_fork = &info
+			-> forks[(i + 1) % info -> no_of_philos];
+	}
+}
+
+//even philo take left fork first and the odd philo takes the right one
 void	philo(t_info *info)
 {
 	int		i;
@@ -27,16 +55,7 @@ void	philo(t_info *info)
 		philo -> full = false;
 		philo -> info = info;
 		all_mutex_handler(&philo -> philo_mutex, INIT);
-		if (philo -> id % 2 == 0)
-		{
-			philo -> first_fork = &info -> forks[(i + 1) % info -> no_of_philos];
-			philo -> second_fork = &info -> forks[i];
-		}
-		else
-		{
-			philo -> first_fork = &info -> forks[i];
-			philo -> second_fork = &info -> forks[(i + 1) % info -> no_of_philos];
-		}
+		philo_fork_assign(philo, info, i);
 		i++;
 	}
 }

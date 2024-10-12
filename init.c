@@ -10,13 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
 
 int	checkargs(char *argv[])
 {
 	int	i;
 
-	if (ft_atoi(argv[1]) > 200 || ft_atoi(argv[2]) == 0 || ft_atoi(argv[4]) == 0)
+	if (ft_atoi(argv[1]) > 200 || ft_atoi(argv[2]) == 0
+		|| ft_atoi(argv[4]) == 0)
 		return (0);
 	i = 1;
 	while (argv[i])
@@ -25,10 +26,9 @@ int	checkargs(char *argv[])
 			return (0);
 		if (overflow(argv[i]))
 			return (0);
-		if(*argv[i] == '-')
+		if (*argv[i] == '-')
 			return (0);
 		i++;
 	}
 	return (1);
 }
-

@@ -1,4 +1,16 @@
-# include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dinner_monitor.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: karpatel <karpatel@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/12 14:36:30 by karpatel          #+#    #+#             */
+/*   Updated: 2024/10/12 14:36:35 by karpatel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "philo.h"
 
 bool	philo_died(t_philo *philo)
 {
@@ -6,7 +18,8 @@ bool	philo_died(t_philo *philo)
 	t_info	*info;
 
 	info = philo -> info;
-	elapsed = gettime(MILLISECONDS) - mutex_get_long(&philo -> philo_mutex, &philo -> last_meal_time);
+	elapsed = gettime(MILLISECONDS)-mutex_get_long(&philo -> philo_mutex,
+			&philo -> last_meal_time);
 	if (mutex_get_bool(&philo -> philo_mutex, &philo -> full))
 		return (false);
 	if (elapsed > mutex_get_long(&info -> info_mutex, &info -> time_to_die))
@@ -17,15 +30,16 @@ bool	philo_died(t_philo *philo)
 void	*monitor_dinner(void *data)
 {
 	int		i;
-	t_info *info;
+	t_info	*info;
 
 	info = (t_info *)data;
-	while (mutex_get_long(&info -> info_mutex, &info -> running_no_of_threads) != info -> no_of_philos)
+	while (mutex_get_long(&info -> info_mutex,
+			&info -> running_no_of_threads) != info -> no_of_philos)
 		usleep(500);
 	while (!finished_eating(info))
 	{
 		i = 0;
-		while(i < info->no_of_philos)
+		while (i < info->no_of_philos)
 		{
 			if (philo_died(&info->philos[i]))
 			{

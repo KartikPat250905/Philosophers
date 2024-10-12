@@ -1,14 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dinner.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: karpatel <karpatel@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/12 14:44:57 by karpatel          #+#    #+#             */
+/*   Updated: 2024/10/12 14:44:58 by karpatel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	think(t_philo *philo, bool start)
 {
-	long t_think;
+	long	t_think;
 
 	if (!start)
 		write_status(THINKING, philo -> info, philo);
 	if (philo -> info -> no_of_philos % 2 == 0)
 		return ;
-	t_think = (philo -> info -> time_to_eat * 2) - philo -> info -> time_to_sleep;
+	t_think = (philo -> info -> time_to_eat * 2)
+		- philo -> info -> time_to_sleep;
 	if (t_think < 0)
 		t_think = 0;
 	ft_usleep(t_think * 0.42, philo);
@@ -20,10 +33,12 @@ void	eat(t_philo *philo)
 	write_status(TAKE_FIRST_FORK, philo -> info, philo);
 	all_mutex_handler(&philo -> second_fork -> fork, LOCK);
 	write_status(TAKE_SECOND_FORK, philo -> info, philo);
-	mutex_set_long(&philo -> philo_mutex, &philo->last_meal_time, gettime(MILLISECONDS));
-	write_status(EATING, philo -> info, philo);
-	ft_usleep(philo -> info -> time_to_eat , philo);
-	if ((philo->info->no_of_meals > 0) && (philo->no_of_meals_taken == philo->info->no_of_meals))
+	mutex_set_long(&philo -> philo_mutex,
+		&philo->last_meal_time, gettime(MILLISECONDS));
+	write_status(EATING, philo->info, philo);
+	ft_usleep(philo -> info -> time_to_eat, philo);
+	if ((philo->info->no_of_meals > 0)
+		&& (philo->no_of_meals_taken == philo->info->no_of_meals))
 		mutex_set_bool(&philo -> philo_mutex, &philo -> full, true);
 	all_mutex_handler(&philo-> first_fork -> fork, UNLOCK);
 	all_mutex_handler(&philo->second_fork -> fork, UNLOCK);
@@ -48,7 +63,8 @@ void	*dinner_simulation(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	mutex_long_increment(&philo -> info -> info_mutex, &philo -> info -> running_no_of_threads, 1);
+	mutex_long_increment(&philo -> info -> info_mutex,
+		&philo -> info -> running_no_of_threads, 1);
 	wait_all_threads(philo->info);
 	philo -> last_meal_time = gettime(MILLISECONDS);
 	contention_preventer(philo);
@@ -59,7 +75,8 @@ void	*dinner_simulation(void *data)
 		eat(philo);
 		write_status(SLEEPING, philo -> info, philo);
 		ft_usleep(philo -> info -> time_to_sleep, philo);
-		mutex_long_increment(&philo -> philo_mutex, &philo -> no_of_meals_taken, 1);
+		mutex_long_increment(&philo -> philo_mutex,
+			&philo -> no_of_meals_taken, 1);
 		think(philo, false);
 	}
 	return (NULL);
@@ -75,7 +92,7 @@ void	dinner_starts(t_info *info)
 	else if (info -> no_of_philos == 1)
 	{
 		all_thread_handler(&info->philos[i].thread_id,
-						single_philo, &info->philos[i],CREATE);
+			single_philo, &info->philos[i], CREATE);
 	}
 	else
 	{
@@ -83,16 +100,12 @@ void	dinner_starts(t_info *info)
 		while (i < info->no_of_philos)
 		{
 			all_thread_handler(&info->philos[i].thread_id,
-						dinner_simulation, &info->philos[i], CREATE);
+				dinner_simulation, &info->philos[i], CREATE);
 			i++;
 		}
 	}
-	mutex_set_long(&info -> info_mutex, &info -> start_time, gettime(MILLISECONDS));
+	mutex_set_long(&info -> info_mutex,
+		&info -> start_time, gettime(MILLISECONDS));
 	mutex_set_bool(&info->info_mutex, &info->all_threads_ready, true);
-	i = 0;
-	while (i < info -> no_of_philos)
-	{
-		all_thread_handler(&info->philos[i].thread_id, NULL, NULL, JOIN);
-		i++;
-	}
+	join_threads(info);
 }

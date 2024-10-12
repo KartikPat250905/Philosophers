@@ -21,7 +21,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 
-typedef struct s_philo t_philo;
+typedef struct s_philo	t_philo;
 
 typedef enum e_index
 {
@@ -96,8 +96,8 @@ long	ft_atoi(const char *str);
 void	parse_argv(t_info *info, char *argv[]);
 int		data_init(t_info *info);
 
-int		all_thread_handler(pthread_t *thread, void *(*foo)(void *)
-		, void *data, t_index index);
+int		all_thread_handler(pthread_t *thread, void *(*foo)(void *),
+			void *data, t_index index);
 int		all_mutex_handler(pthread_mutex_t *mutex, t_index index);
 size_t	ft_strlen(const char *str);
 int		ft_isdigit(int c);
@@ -118,4 +118,6 @@ void	wait_all_threads(t_info *info);
 void	*monitor_dinner(void *data);
 bool	philo_died(t_philo *philo);
 void	cleaner(t_info *info);
-# endif
+void	join_threads(t_info *info);
+
+#endif

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: karpatel <karpatel@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/12 15:35:06 by karpatel          #+#    #+#             */
+/*   Updated: 2024/10/12 15:35:07 by karpatel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 long	gettime(t_time time)
 {
-	struct timeval tv;
+	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL))
 	{
@@ -39,16 +51,16 @@ void	write_status(t_philo_status status, t_info *info, t_philo *philo)
 		return ;
 	all_mutex_handler(&info->write_lock, LOCK);
 	if ((status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
-			&& (!(finished_eating(info))))
-		printf("%ld %d has taken a fork\n",elapsed, philo -> id);
+		&& (!(finished_eating(info))))
+		printf("%ld %d has taken a fork\n", elapsed, philo -> id);
 	else if (status == SLEEPING && (!(finished_eating(info))))
-		printf("%ld %d is sleeping\n",elapsed, philo -> id);
+		printf("%ld %d is sleeping\n", elapsed, philo -> id);
 	else if (status == THINKING && (!(finished_eating(info))))
-		printf("%ld %d is thinking\n",elapsed, philo -> id);
+		printf("%ld %d is thinking\n", elapsed, philo -> id);
 	else if (status == DIED && (!(finished_eating(info))))
-		printf("%ld %d died\n",elapsed, philo -> id);
+		printf("%ld %d died\n", elapsed, philo -> id);
 	else if (status == EATING && (!(finished_eating(info))))
-		printf("%ld %d is eating\n",elapsed, philo -> id);
+		printf("%ld %d is eating\n", elapsed, philo -> id);
 	all_mutex_handler(&info->write_lock, UNLOCK);
 }
 
