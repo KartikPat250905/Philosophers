@@ -16,7 +16,8 @@ int	main(int argc, char *argv[])
 {
 	t_info	info;
 
-	if ((argc != 5 && argc != 6) || !checkargs(argv))
+	if (((argc != 5 && argc != 6) || !checkargs(argv))
+		|| (argv[5] != NULL && (ft_atoi(argv[5]) == 0)))
 	{
 		printf("Incorrect usuage check the instructons to run correctly.\n");
 		return (EXIT_FAILURE);

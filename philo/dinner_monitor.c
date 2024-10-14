@@ -27,6 +27,32 @@ bool	philo_died(t_philo *philo)
 	return (false);
 }
 
+void	all_philos_full(t_info *info)
+{
+	int		no_of_philos_full;
+	t_philo	*philo;
+	int		i;
+
+	no_of_philos_full = 0;
+	if (info -> no_of_meals == -1)
+		return ;
+	i = 0;
+	while (i < info -> no_of_philos)
+	{
+		philo = &info -> philos[i];
+		if (mutex_get_bool(&philo->philo_mutex, &philo -> full))
+			no_of_philos_full++;
+		i++;
+	}
+	if (no_of_philos_full == info -> no_of_philos)
+	{
+		all_mutex_handler(&info -> write_lock, LOCK);
+		printf("The philosophers have eaten the required amount of meals.");
+		mutex_set_bool(&info -> info_mutex, &info -> stop_program, true);
+		all_mutex_handler(&info -> write_lock, UNLOCK);
+	}
+}
+
 void	*monitor_dinner(void *data)
 {
 	int		i;
@@ -48,6 +74,7 @@ void	*monitor_dinner(void *data)
 			}
 			i++;
 		}
+		all_philos_full(info);
 	}
 	return (NULL);
 }

@@ -77,7 +77,7 @@ typedef struct s_info
 typedef struct s_philo
 {
 	int				id;
-	int				no_of_meals_taken;
+	long			no_of_meals_taken;
 	bool			full;
 	long			last_meal_time;
 	t_fork			*first_fork;
@@ -119,5 +119,6 @@ void	*monitor_dinner(void *data);
 bool	philo_died(t_philo *philo);
 void	cleaner(t_info *info);
 void	join_threads(t_info *info);
+void	philo_last_meal_time(t_info *info);
 
 #endif

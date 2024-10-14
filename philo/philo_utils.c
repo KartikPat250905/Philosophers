@@ -22,9 +22,7 @@ long	gettime(t_time time)
 		return (-1);
 	}
 	if (time == MILLISECONDS)
-		return ((tv.tv_sec * 1000 + (tv.tv_usec / 1000)));
-	else if (time == MICROSECONDS)
-		return ((tv.tv_sec * 1000000) + tv.tv_usec);
+		return (tv.tv_sec * 1000LL + tv.tv_usec / 1000LL);
 	else
 	{
 		printf("Error with the give time code to gettime");
@@ -46,10 +44,10 @@ void	write_status(t_philo_status status, t_info *info, t_philo *philo)
 {
 	long	elapsed;
 
-	elapsed = gettime(MILLISECONDS) - info -> start_time;
 	if (finished_eating(info))
 		return ;
 	all_mutex_handler(&info->write_lock, LOCK);
+	elapsed = gettime(MILLISECONDS) - info -> start_time;
 	if ((status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
 		&& (!(finished_eating(info))))
 		printf("%ld %d has taken a fork\n", elapsed, philo -> id);

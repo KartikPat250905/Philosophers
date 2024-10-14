@@ -66,17 +66,17 @@ void	*dinner_simulation(void *data)
 	mutex_long_increment(&philo -> info -> info_mutex,
 		&philo -> info -> running_no_of_threads, 1);
 	wait_all_threads(philo->info);
-	philo -> last_meal_time = gettime(MILLISECONDS);
 	contention_preventer(philo);
 	while (!finished_eating(philo->info))
 	{
-		if (philo -> full)
-			break ;
 		eat(philo);
 		write_status(SLEEPING, philo -> info, philo);
 		ft_usleep(philo -> info -> time_to_sleep, philo);
 		mutex_long_increment(&philo -> philo_mutex,
 			&philo -> no_of_meals_taken, 1);
+		if (mutex_get_long(&philo->philo_mutex,
+				&philo->no_of_meals_taken) == philo -> info -> no_of_meals)
+			philo -> full = 1;
 		think(philo, false);
 	}
 	return (NULL);
@@ -87,6 +87,8 @@ void	dinner_starts(t_info *info)
 	int	i;
 
 	i = 0;
+	info -> start_time = gettime(MILLISECONDS);
+	philo_last_meal_time(info);
 	if (info->no_of_meals == 0)
 		return ;
 	else if (info -> no_of_philos == 1)
@@ -104,8 +106,6 @@ void	dinner_starts(t_info *info)
 			i++;
 		}
 	}
-	mutex_set_long(&info -> info_mutex,
-		&info -> start_time, gettime(MILLISECONDS));
 	mutex_set_bool(&info->info_mutex, &info->all_threads_ready, true);
 	join_threads(info);
 }

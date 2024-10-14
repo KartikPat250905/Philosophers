@@ -75,3 +75,17 @@ void	join_threads(t_info *info)
 		i++;
 	}
 }
+
+void	philo_last_meal_time(t_info *info)
+{
+	long	starttime;
+	int		i;
+
+	starttime = info -> start_time;
+	i = 0;
+	while (i < info -> no_of_philos)
+	{
+		info -> philos[i].last_meal_time = starttime;
+		i++;
+	}
+}
