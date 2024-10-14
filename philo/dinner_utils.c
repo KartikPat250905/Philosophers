@@ -74,6 +74,7 @@ void	join_threads(t_info *info)
 		all_thread_handler(&info->philos[i].thread_id, NULL, NULL, JOIN);
 		i++;
 	}
+	all_thread_handler(&info -> monitor, NULL, NULL, JOIN);
 }
 
 void	philo_last_meal_time(t_info *info)

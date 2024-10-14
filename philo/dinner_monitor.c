@@ -47,7 +47,7 @@ void	all_philos_full(t_info *info)
 	if (no_of_philos_full == info -> no_of_philos)
 	{
 		all_mutex_handler(&info -> write_lock, LOCK);
-		printf("The philosophers have eaten the required amount of meals.");
+		printf("The philosophers have eaten the required amount of meals.\n");
 		mutex_set_bool(&info -> info_mutex, &info -> stop_program, true);
 		all_mutex_handler(&info -> write_lock, UNLOCK);
 	}
@@ -71,6 +71,7 @@ void	*monitor_dinner(void *data)
 			{
 				write_status(DIED, info, &info -> philos[i]);
 				mutex_set_bool(&info->info_mutex, &info->stop_program, true);
+				i = info -> no_of_philos;
 			}
 			i++;
 		}

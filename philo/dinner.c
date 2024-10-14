@@ -76,7 +76,7 @@ void	*dinner_simulation(void *data)
 			&philo -> no_of_meals_taken, 1);
 		if (mutex_get_long(&philo->philo_mutex,
 				&philo->no_of_meals_taken) == philo -> info -> no_of_meals)
-			philo -> full = 1;
+			mutex_set_bool(&philo -> philo_mutex, &philo -> full, true);
 		think(philo, false);
 	}
 	return (NULL);
