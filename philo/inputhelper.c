@@ -46,7 +46,7 @@ int	resultcounter(long *result, int sign, char const *str, int i)
 	{
 		if (*result > ((INT_MAX - (str[i] - '0')) / 10) && sign == 1)
 			return (-1);
-		if (*result > ((-1 * (INT_MIN + (str[i] - '0'))) / 10) && sign == -1)
+		if (sign == -1 && *result > ((-INT_MIN) / 10))
 			return (0);
 		*result *= 10;
 		*result += str[i] - '0';

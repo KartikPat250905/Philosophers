@@ -6,7 +6,7 @@
 /*   By: karpatel <karpatel@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 16:24:14 by karpatel          #+#    #+#             */
-/*   Updated: 2024/08/24 16:24:16 by karpatel         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:17:35 by karpatel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <limits.h>
 # include <unistd.h>
 # include <sys/time.h>
+# include <string.h>
 
 typedef struct s_philo	t_philo;
 
