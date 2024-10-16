@@ -94,7 +94,7 @@ int		overflow(char *str);
 int		ft_isnumstr(char *str);
 int		resultcounter(long *result, int sign, char const *str, int i);
 long	ft_atoi(const char *str);
-void	parse_argv(t_info *info, char *argv[]);
+int		parse_argv(t_info *info, char *argv[]);
 int		data_init(t_info *info);
 
 int		all_thread_handler(pthread_t *thread, void *(*foo)(void *),

@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void	parse_argv(t_info *info, char *argv[])
+int	parse_argv(t_info *info, char *argv[])
 {
 	info -> no_of_philos = ft_atoi(argv[1]);
 	info -> time_to_die = ft_atoi(argv[2]);
@@ -22,6 +22,11 @@ void	parse_argv(t_info *info, char *argv[])
 		info -> no_of_meals = ft_atoi(argv[5]);
 	else
 		info -> no_of_meals = -1;
+	if (info -> no_of_philos <= 0 || info -> time_to_die <= 0
+		|| info -> time_to_eat || info -> time_to_sleep <= 0
+		|| info -> no_of_meals <= 0)
+		return (1);
+	return (0);
 }
 
 void	philo_fork_assign(t_philo *philo, t_info *info, int i)

@@ -25,7 +25,11 @@ int	main(int argc, char *argv[])
 			"<time to sleep> <no.of meals (optional)>\n");
 		return (EXIT_FAILURE);
 	}
-	parse_argv(&info, argv);
+	if (parse_argv(&info, argv))
+	{
+		printf("Please enter valid values.");
+		return (EXIT_FAILURE);
+	}
 	if (data_init(&info) != 0)
 	{
 		printf("Error with mallocing stuff.");

@@ -50,15 +50,15 @@ void	write_status(t_philo_status status, t_info *info, t_philo *philo)
 	elapsed = gettime(MILLISECONDS) - info -> start_time;
 	if ((status == TAKE_FIRST_FORK || status == TAKE_SECOND_FORK)
 		&& (!(finished_eating(info))))
-		printf("%ld %d has taken a fork\n", elapsed, philo -> id);
+		printf("%ld %d has taken a fork\n", elapsed, philo -> id + 1);
 	else if (status == SLEEPING && (!(finished_eating(info))))
-		printf("%ld %d is sleeping\n", elapsed, philo -> id);
+		printf("%ld %d is sleeping\n", elapsed, philo -> id + 1);
 	else if (status == THINKING && (!(finished_eating(info))))
-		printf("%ld %d is thinking\n", elapsed, philo -> id);
+		printf("%ld %d is thinking\n", elapsed, philo -> id + 1);
 	else if (status == DIED && (!(finished_eating(info))))
-		printf("%ld %d died\n", elapsed, philo -> id);
+		printf("%ld %d died\n", elapsed, philo -> id + 1);
 	else if (status == EATING && (!(finished_eating(info))))
-		printf("%ld %d is eating\n", elapsed, philo -> id);
+		printf("%ld %d is eating\n", elapsed, philo -> id + 1);
 	all_mutex_handler(&info->write_lock, UNLOCK);
 }
 
